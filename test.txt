@@ -1,6 +1,6 @@
-"""
+First, basic schema validation using schemaish.
 
-First, basic schema validation using schemaish:
+We start by defining a schema:
 
 >>> import schemaish
 >>> from validatish import validator
@@ -8,18 +8,18 @@ First, basic schema validation using schemaish:
 >>> schema.add('url', schemaish.String(
 ...    validator=validator.URL()))
 
-Register the schema:
+Register it (in a shonky way):
 
 >>> import transformer
 >>> transformer.schema_registry = {'myschema': schema}
 
-Now, here's our sample data:
+Now, here's our sample data that we want to post:
 
 >>> example = {'schema':'myschema',
 ...            'data':{'url': 3,
 ...                    'description':'a description'}}
 
-We can validate it:
+Now validate it; an "errors" dictionary is added to our data structure.
 
 >>> from transformer import get_validated
 >>> validated_data = get_validated(example)
@@ -29,7 +29,7 @@ We can validate it:
  'errors': {'url': 'must be a url'},
  'schema': 'myschema'}
 
-Now, create a form template by hand:
+Now, create a form template by hand, in which we want to present the data:
 
 >>> form_template = '''
 ... <form action="">
@@ -41,7 +41,7 @@ Now, create a form template by hand:
 ... </div>
 ... </form>'''
 
-And we can now render it for the user with our validated data
+And we can now render it:
 
 >>> from transformer import apply_validated_data
 >>> print apply_validated_data(form_template, validated_data)
