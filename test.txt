@@ -1,0 +1,53 @@
+"""
+
+First, basic schema validation using schemaish:
+
+>>> import schemaish
+>>> from validatish import validator
+>>> schema = schemaish.Structure()
+>>> schema.add('url', schemaish.String(
+...    validator=validator.URL()))
+
+Register the schema:
+
+>>> import transformer
+>>> transformer.schema_registry = {'myschema': schema}
+
+Now, here's our sample data:
+
+>>> example = {'schema':'myschema',
+...            'data':{'url': 3,
+...                    'description':'a description'}}
+
+We can validate it:
+
+>>> from transformer import get_validated
+>>> validated_data = get_validated(example)
+>>> from pprint import pprint
+>>> pprint(validated_data)
+{'data': {'description': 'a description', 'url': 3},
+ 'errors': {'url': 'must be a url'},
+ 'schema': 'myschema'}
+
+Now, create a form template by hand:
+
+>>> form_template = '''
+... <form action="">
+... <input type="hidden" name="schema" value="myschema"/>
+... <div class="field">
+...  <label for="url">URL</label>
+...  <div class="error-message"/>
+...  <input type="text" name="url"/>
+... </div>
+... </form>'''
+
+And we can now render it for the user with our validated data
+
+>>> from transformer import apply_validated_data
+>>> print apply_validated_data(form_template, validated_data)
+<form action="">
+<input type="hidden" name="schema" value="myschema"/><div class="field">
+ <label for="url">URL</label>
+ <div class="error-message">must be a url</div>
+ <input type="text" name="url" value="3"/></div>
+</form>
