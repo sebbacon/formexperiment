@@ -10,3 +10,5 @@ HTML from the data.
 It also, in theory, makes it easier to build model updating
 functionality based around REST/JSON APIs and apply a form view later
 with a minimum of effort.
+
+Look at test.txt to see how it works.
