@@ -36,9 +36,10 @@ like all these frameworks that generate widgets for me; they're great
 out the box, but the moment they need customising things get hairy
 pretty quickly.
 
-Many frameworks require magic keys like "name.status3.thing0" which
-gets hard to track and read for deeply-nested structures.  The nice
-thing about Peppercorn is that you don't need to remember this stuff.
+Many frameworks require magic form element names like
+```name.status3.thing0``` which gets hard to track and read for
+deeply-nested structures.  The nice thing about Peppercorn is that you
+don't need to remember this stuff.
 
 You still need to write lots of conditional code in your templates to
 display errors and default data and so on.  Mostly, this package is
