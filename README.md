@@ -87,10 +87,9 @@ The balance I'm leaning towards at the moment would be to write the
 forms in your favourite templating language, and add in peppercorn
 tokens by hand.
 
-Having said that, I just noticed [whitmo][2]'s [snippet][3] on Github
-which appears to use peppercorn + htmlfill/formencode to do the same
-thing -- probably a much better idea to reuse these than reproduce --
-needs investigation.
+I just noticed whitmo's [snippet][2] on Github which appears to use
+peppercorn + htmlfill/formencode to do the same thing -- probably a
+much better idea to reuse these than reproduce -- needs investigation.
 
 Look at the tests to see how it works.  Start with the doctest
 ```test_simple_data.txt``` for a version without peppercorn, then move
@@ -98,5 +97,4 @@ onto ```test_with_peppercorn``` for more examples.  (One is disabled
 as it's not working yet -- there's a bug with lists-within-lists).
 
 [1]: http://www.plope.com/peppercorn
-[2]
-[3]: https://gist.github.com/396568
+[2]: https://gist.github.com/396568
