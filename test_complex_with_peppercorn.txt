@@ -1,0 +1,24 @@
+Define a schema that includes a sequence type
+
+>>> import schemaish
+>>> from validatish import validator
+>>> schema = schemaish.Structure()
+>>> urls = schemaish.Sequence(attr=schemaish.String(validator=validator.URL()))
+>>> schema.add('urls', urls)
+>>> import transformer
+>>> transformer.schema_registry = {'myschema': schema}
+
+Now, here's our sample data that we want to post:
+
+>>> example = {'schema':'myschema',
+...            'data':{'urls': [3,"http://www.com"]}}
+
+Now validate it; an "errors" dictionary is added to our data structure.
+
+>>> from transformer import get_validated
+>>> validated_data = get_validated(example)
+>>> from pprint import pprint
+>>> pprint(validated_data)
+{'data': {'urls': [3, 'http://www.com']},
+ 'errors': {'urls.0': 'must be a url'}, 
+ 'schema': 'myschema'}

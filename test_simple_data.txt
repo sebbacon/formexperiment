@@ -16,8 +16,7 @@ Register it (in a shonky way):
 Now, here's our sample data that we want to post:
 
 >>> example = {'schema':'myschema',
-...            'data':{'url': 3,
-...                    'description':'a description'}}
+...            'data':{'url': 3}}
 
 Now validate it; an "errors" dictionary is added to our data structure.
 
@@ -25,29 +24,41 @@ Now validate it; an "errors" dictionary is added to our data structure.
 >>> validated_data = get_validated(example)
 >>> from pprint import pprint
 >>> pprint(validated_data)
-{'data': {'description': 'a description', 'url': 3},
- 'errors': {'url': 'must be a url'},
- 'schema': 'myschema'}
+{'data': {'url': 3}, 'errors': {'url': 'must be a url'}, 'schema': 'myschema'}
+
+We can also pass in the schema as a form field:
+
+>>> example = {'data':{'schema':'myschema',
+...                    'url': 3}}
+>>> get_validated(example) == validated_data
+True
 
 Now, create a form template by hand, in which we want to present the data:
 
 >>> form_template = '''
-... <form action="">
+... <html><body><form action="">
 ... <input type="hidden" name="schema" value="myschema"/>
 ... <div class="field">
 ...  <label for="url">URL</label>
 ...  <div class="error-message"/>
 ...  <input type="text" name="url"/>
 ... </div>
-... </form>'''
+... </form></body></html>'''
 
 And we can now render it:
 
->>> from transformer import apply_validated_data
->>> print apply_validated_data(form_template, validated_data)
-<form action="">
-<input type="hidden" name="schema" value="myschema"/><div class="field">
- <label for="url">URL</label>
- <div class="error-message">must be a url</div>
- <input type="text" name="url" value="3"/></div>
-</form>
+>>> from transformer import ParsedForm
+>>> form = ParsedForm(form_template, data=validated_data)
+
+Explictly validate it: 
+
+>>> form.validate()
+{'errors': {'url': 'must be a url'}, 'data': {'url': 3}, 'schema': 'myschema'}
+
+A validated form can then be rendered:
+
+>>> result = form.transform()
+>>> '<div class="error-message">must be a url</div>' in result
+True
+>>> '<input type="text" name="url" value="3"/>' in result
+True
