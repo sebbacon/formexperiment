@@ -38,8 +38,8 @@ We can alternatively pass in the schema as a form field:
 >>> get_validated(example) == validated_data
 True
 
-Now to fill out a form automaticall.  We create a form template by
-hand, in which we want to present the data.  It's field names must
+Now to fill out a form automatically.  We create a form template by
+hand, in which we want to present the data.  Its field names must
 match our data keys:
 
 >>> form_template = '''
