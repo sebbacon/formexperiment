@@ -1,3 +1,8 @@
+This walks through a very simple validation, followed with a basic
+form interpolation.  For simple forms, this approach is basically the
+same as ```formencode.htmlfill```.  Note we don't need to use
+Peppercorn here, as the data structure is flat.
+
 First, basic schema validation using schemaish.
 
 We start by defining a schema:
@@ -8,12 +13,12 @@ We start by defining a schema:
 >>> schema.add('url', schemaish.String(
 ...    validator=validator.URL()))
 
-Register it (in a shonky way):
+Register it:
 
 >>> import transformer
 >>> transformer.schema_registry = {'myschema': schema}
 
-Now, here's our sample data that we want to post:
+Here's the sample data that we want to post:
 
 >>> example = {'schema':'myschema',
 ...            'data':{'url': 3}}
@@ -26,14 +31,16 @@ Now validate it; an "errors" dictionary is added to our data structure.
 >>> pprint(validated_data)
 {'data': {'url': 3}, 'errors': {'url': 'must be a url'}, 'schema': 'myschema'}
 
-We can also pass in the schema as a form field:
+We can alternatively pass in the schema as a form field:
 
 >>> example = {'data':{'schema':'myschema',
 ...                    'url': 3}}
 >>> get_validated(example) == validated_data
 True
 
-Now, create a form template by hand, in which we want to present the data:
+Now to fill out a form automaticall.  We create a form template by
+hand, in which we want to present the data.  It's field names must
+match our data keys:
 
 >>> form_template = '''
 ... <html><body><form action="">
@@ -45,7 +52,7 @@ Now, create a form template by hand, in which we want to present the data:
 ... </div>
 ... </form></body></html>'''
 
-And we can now render it:
+And we can now parse it:
 
 >>> from transformer import ParsedForm
 >>> form = ParsedForm(form_template, data=validated_data)
@@ -55,7 +62,7 @@ Explictly validate it:
 >>> form.validate()
 {'errors': {'url': 'must be a url'}, 'data': {'url': 3}, 'schema': 'myschema'}
 
-A validated form can then be rendered:
+And finally render it:
 
 >>> result = form.transform()
 >>> '<div class="error-message">must be a url</div>' in result

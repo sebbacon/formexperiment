@@ -87,6 +87,9 @@ The balance I'm leaning towards at the moment would be to write the
 forms in your favourite templating language, and add in peppercorn
 tokens by hand.
 
-Look at the tests to see how it works.
+Look at the tests to see how it works.  Start with the doctest
+```test_simple_data.txt``` for a version without peppercorn, then move
+onto ```test_with_peppercorn``` for more examples.  (One is disabled
+as it's not working yet -- there's a bug with lists-within-lists).
 
 [1]: http://www.plope.com/peppercorn
