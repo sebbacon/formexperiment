@@ -24,7 +24,7 @@ by the above packages.  (Not implemented in this proof of concept)
 
 The trickier question, which is what most of this hack plays around
 with, is how to marshal flat form data to structured form data.  I
-found Chris McDonough's [Peppercorn][1] approach intruiging, so most of
+found Chris McDonough's [Peppercorn][1] approach intriguing, so most of
 what's here is an attempt to work with that.
 
 Peppercorn parses a stream of tokens into a structure.  I think it's a
@@ -87,9 +87,16 @@ The balance I'm leaning towards at the moment would be to write the
 forms in your favourite templating language, and add in peppercorn
 tokens by hand.
 
+Having said that, I just noticed [whitmo][2]'s [snippet][3] on Github
+which appears to use peppercorn + htmlfill/formencode to do the same
+thing -- probably a much better idea to reuse these than reproduce --
+needs investigation.
+
 Look at the tests to see how it works.  Start with the doctest
 ```test_simple_data.txt``` for a version without peppercorn, then move
 onto ```test_with_peppercorn``` for more examples.  (One is disabled
 as it's not working yet -- there's a bug with lists-within-lists).
 
 [1]: http://www.plope.com/peppercorn
+[2]
+[3]: https://gist.github.com/396568
